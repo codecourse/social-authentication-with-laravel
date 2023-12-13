@@ -8,8 +8,8 @@ use Laravel\Socialite\Facades\Socialite;
 
 class AuthRedirectController extends Controller
 {
-    public function __invoke()
+    public function __invoke(string $service)
     {
-        return Socialite::driver('twitter')->redirect();
+        return Socialite::driver($service)->redirect();
     }
 }

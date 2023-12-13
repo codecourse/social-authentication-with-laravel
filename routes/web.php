@@ -27,8 +27,9 @@ Route::get('/dashboard', function () {
 
 Route::middleware('guest')->group(function () {
     Route::get('/auth', AuthIndexController::class)->name('auth.index');
-    Route::get('/auth/redirect', AuthRedirectController::class)->name('auth.redirect');
-    Route::get('/auth/callback', AuthCallbackController::class)->name('auth.callback');
+
+    Route::get('/auth/redirect/{service}', AuthRedirectController::class)->name('auth.redirect');
+    Route::get('/auth/callback/{service}', AuthCallbackController::class)->name('auth.callback');
 });
 
 Route::middleware('auth')->group(function () {

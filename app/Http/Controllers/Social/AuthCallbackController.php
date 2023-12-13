@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Social;
 
+use App\Factories\Social\CreateUserFactory;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -10,19 +11,22 @@ use Laravel\Socialite\Facades\Socialite;
 
 class AuthCallbackController extends Controller
 {
-    public function __invoke()
+    public function __invoke(string $service)
     {
-        $user = Socialite::driver('twitter')->user();
+        $user = Socialite::driver($service)->user();
 
-        auth()->login(
-            User::firstOrCreate([
-                'x_id' => $user->getId(),
-            ], [
-                'name' => $user->getName(),
-                'email' => $user->getEmail(),
-            ])
-        );
+        app(CreateUserFactory::class)
+            ->forService($service);
 
-        return redirect(RouteServiceProvider::HOME);
+        // auth()->login(
+        //     User::firstOrCreate([
+        //         'x_id' => $user->getId(),
+        //     ], [
+        //         'name' => $user->getName(),
+        //         'email' => $user->getEmail(),
+        //     ])
+        // );
+
+        // return redirect(RouteServiceProvider::HOME);
     }
 }
