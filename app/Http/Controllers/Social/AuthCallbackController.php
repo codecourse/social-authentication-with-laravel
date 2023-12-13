@@ -15,18 +15,12 @@ class AuthCallbackController extends Controller
     {
         $user = Socialite::driver($service)->user();
 
-        app(CreateUserFactory::class)
-            ->forService($service);
+        auth()->login(
+            app(CreateUserFactory::class)
+                ->forService($service)
+                ->create($user)
+        );
 
-        // auth()->login(
-        //     User::firstOrCreate([
-        //         'x_id' => $user->getId(),
-        //     ], [
-        //         'name' => $user->getName(),
-        //         'email' => $user->getEmail(),
-        //     ])
-        // );
-
-        // return redirect(RouteServiceProvider::HOME);
+        return redirect(RouteServiceProvider::HOME);
     }
 }
