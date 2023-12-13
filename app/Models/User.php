@@ -21,7 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'x_id'
+        'x_id',
+        'github_id'
     ];
 
     /**
